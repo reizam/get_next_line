@@ -6,7 +6,7 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 17:33:43 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/23 00:47:24 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/23 00:55:36 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,13 @@ int		parse_line(size_t v, size_t end, char *content, char **line)
 	char	*result;
 
 	i = 0;
-	if (!(result = (char*)malloc(sizeof(char) * ((end) + 1))))
+	if (!(result = (char*)malloc(sizeof(char) * ((v ? end : 0) + 1))))
 		return (0);
 	while (!v && i < end)
-		result[i++] = content[i++];
+	{
+		result[i] = content[i];
+		i++;
+	}
 	result[i] = 0;
 	*line = result;
 	return (1);
@@ -77,7 +80,7 @@ int		get_next_line(int fd, char **line)
 			temp->content = ft_strjoin(temp->content, buffer, i);
 	if (i < 0)
 		return (-1);
-	parse_line(i == 0 && j == 0, i == 0 ? ft_strlen(temp->content) : j - 1, temp->content, line);
+	parse_line(i == 0 && j == 0, i == 0 && j > 0 ? ft_strlen(temp->content) : j - 1, temp->content, line);
 	free_content(&temp, j);
 	return (i == 0 && j == 0 ? 0 : 1);
 }
