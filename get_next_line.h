@@ -6,7 +6,7 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 17:34:36 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/22 23:47:31 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/23 00:39:13 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+#ifndef BUFFER_SIZE
 # define BUFFER_SIZE 4096
+#endif
 
 typedef struct	s_list
 {
