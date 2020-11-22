@@ -6,7 +6,7 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 17:34:07 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/22 02:35:17 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/22 20:03:32 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,13 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, ssize_t s2_size)
 {
 	char			*result;
 	size_t			i;
 	size_t			j;
 
-	i = (s1 == NULL ? 0 : ft_strlen((char*)s1))
-	+ (s2 == NULL ? 0 : ft_strlen((char*)s2));
+	i = (s1 == NULL ? 0 : ft_strlen((char*)s1)) + s2_size;
 	if (!(result = (char*)malloc((i + 1) * sizeof(char))))
 		return (NULL);
 	i = 0;
@@ -37,7 +36,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s1 && s1[j])
 		result[i++] = s1[j++];
 	j = 0;
-	while (s2 && s2[j])
+	while (s2 && j < (size_t)s2_size)
 		result[i++] = s2[j++];
 	result[i] = 0;
 	if (s1)
@@ -76,7 +75,7 @@ t_list	*ft_lstget(t_list *begin, int fd)
 	return (NULL);
 }
 
-t_list	*ft_lstnew(t_list *next, int fd)
+t_list	*ft_lstnew(t_list **begin, int fd)
 {
 	t_list *lst;
 
@@ -84,9 +83,10 @@ t_list	*ft_lstnew(t_list *next, int fd)
 		return (NULL);
 	lst->fd = fd;
 	lst->content = NULL;
-	if (next)
-		lst->next = next;
+	if ((*begin))
+		lst->next = *begin;
 	else
 		lst->next = NULL;
+	*begin = lst;
 	return (lst);
 }
