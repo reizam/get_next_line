@@ -6,14 +6,14 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 17:33:43 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/23 02:44:33 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/23 17:59:36 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 
-int		get_next_line_offset(t_list *lst, ssize_t ret)
+int		get_next_line_offset(t_list *lst)
 {
 	size_t	i;
 
@@ -23,7 +23,7 @@ int		get_next_line_offset(t_list *lst, ssize_t ret)
 	while (lst->content[i])
 		if (lst->content[i++] == '\n')
 			return (i);
-	return (ret == 0 ? i : 0);
+	return (0);
 }
 
 int		parse_line(int v, size_t end, char *content, char **line)
@@ -69,6 +69,7 @@ int		get_next_line(int fd, char **line)
 	t_list			*temp;
 	ssize_t			i;
 	ssize_t			j;
+	size_t			len;
 	char			buffer[BUFFER_SIZE];
 	
 	if (!line || fd < 0 || BUFFER_SIZE <= 0)
@@ -76,13 +77,17 @@ int		get_next_line(int fd, char **line)
 	if (!lst || !(temp = ft_lstget(lst, fd)))
 		if(!(temp = ft_lstnew(&lst, fd)))
 			return (-1);
-	i = 1;
-	while ((j = get_next_line_offset(temp, i)) == 0 && i > 0)
-		if ((i = read(fd, &buffer, BUFFER_SIZE)) > 0)
+	while ((i = read(fd, &buffer, BUFFER_SIZE)) >= 0)
+	{
+		if (i > 0)
 			temp->content = ft_strjoin(temp->content, buffer, i);
+		if(((j = get_next_line_offset(temp)) > 0) || i <= 0)
+			break ;
+	}
 	if (i < 0)
 		return (-1);
-	parse_line(fd == STDIN_FILENO && i == 0 && j == 0, i == 0 ? ft_strlen(temp->content) : j - 1, temp->content, line);
-	free_content(&temp, j);
-	return (i == 0 && j == 0 ? 0 : 1);
+	len = ft_strlen(temp->content);
+	parse_line(0, j == 0 && len >= 0 ? len : j - 1, temp->content, line);
+	free_content(&temp, j == 0 && len >= 0 ? len : j);
+	return (i == 0 && j == 0 && len == 0 ? 0 : 1);
 }
