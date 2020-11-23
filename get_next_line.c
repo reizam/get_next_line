@@ -6,7 +6,7 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 17:33:43 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/23 18:30:51 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/23 20:51:16 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	free_content(t_list **lst, ssize_t start)
 	if (!(result = (char*)malloc(sizeof(char) * (i + 1))))
 		return ;
 	i = 0;
-	while ((*lst)->content[start])
+	while ((*lst)->content && (*lst)->content[start])
 		result[i++] = (*lst)->content[start++];
 	result[i] = 0;
 	free((*lst)->content);

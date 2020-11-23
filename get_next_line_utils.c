@@ -6,7 +6,7 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 17:34:07 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/23 20:15:19 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/23 20:24:17 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *s)
 	size_t i;
 
 	i = 0;
-	while (s != NULL && s[i])
+	while (s && s[i])
 		i++;
 	return (i);
 }
