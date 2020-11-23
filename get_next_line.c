@@ -6,12 +6,11 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 17:33:43 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/23 18:02:59 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/23 18:30:51 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
 
 int		get_next_line_offset(t_list *lst)
 {
@@ -26,21 +25,19 @@ int		get_next_line_offset(t_list *lst)
 	return (0);
 }
 
-int		parse_line(int v, size_t end, char *content, char **line)
+int		parse_line(size_t end, char *content, char **line)
 {
 	size_t	i;
 	char	*result;
 
 	i = 0;
-	if (!(result = (char*)malloc(sizeof(char) * ((end + (v == 1 ? 1 : 0)) + 1))))
+	if (!(result = (char*)malloc(sizeof(char) * (end + 1))))
 		return (0);
 	while (i < end)
 	{
 		result[i] = content[i];
 		i++;
 	}
-	if (v == 1)
-		result[i++] = '\n';
 	result[i] = 0;
 	*line = result;
 	return (1);
@@ -87,7 +84,7 @@ int		get_next_line(int fd, char **line)
 	if (i < 0)
 		return (-1);
 	len = ft_strlen(temp->content);
-	parse_line(fd == STDIN_FILENO && j == 0 && len > 0, j == 0 && len >= 0 ? len : j - 1, temp->content, line);
+	parse_line(j == 0 && len >= 0 ? len : j - 1, temp->content, line);
 	free_content(&temp, j == 0 && len >= 0 ? len : j);
 	return (i == 0 && j == 0 && len == 0 ? 0 : 1);
 }
