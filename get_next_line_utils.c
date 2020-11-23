@@ -6,7 +6,7 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 17:34:07 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/23 18:40:17 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/23 20:15:19 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ size_t	ft_strlen(const char *s)
 	size_t i;
 
 	i = 0;
-	if (!s)
-		return (0);
-	while (s[i])
+	while (s != NULL && s[i])
 		i++;
 	return (i);
 }
@@ -45,7 +43,6 @@ char	*ft_strjoin(char *s1, char *s2, ssize_t s2_size)
 		free(s1);
 	return (result);
 }
-
 
 void	ft_lstclear(t_list **lst)
 {
