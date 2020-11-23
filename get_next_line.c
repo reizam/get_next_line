@@ -6,7 +6,7 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 17:33:43 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/23 02:07:27 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/23 02:13:58 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,24 @@ int		get_next_line_offset(t_list *lst, ssize_t ret)
 	return (ret == 0 ? i : 0);
 }
 
-int		parse_line(int fd, size_t end, char *content, char **line)
+int		parse_line(int v, size_t end, char *content, char **line)
 {
 	size_t	i;
 	char	*result;
 
 	i = 0;
-	if (!(result = (char*)malloc(sizeof(char) * ((end + (fd == STDIN_FILENO ? 1 : 0)) + 1))))
+	if (!(result = (char*)malloc(sizeof(char) * ((end + (v == 1 ? 2 : 0)) + 1))))
 		return (0);
-	while (start < end)
-		result[i++] = content[start++];
-	if (fd == STDIN_FILENO)
+	while (i < end)
+	{
+		result[i] = content[i];
+		i++;
+	}
+	if (v)
+	{
+		result[i++] = '\r';
 		result[i++] = '\n';
+	}
 	result[i] = 0;
 	*line = result;
 	return (1);
@@ -79,7 +85,7 @@ int		get_next_line(int fd, char **line)
 			temp->content = ft_strjoin(temp->content, buffer, i);
 	if (i < 0)
 		return (-1);
-	parse_line(0, i == 0 ? ft_strlen(temp->content) : j - 1, temp->content, line);
+	parse_line(fd == STDIN_FILENO && i == 0 && j > 0, i == 0 ? ft_strlen(temp->content) : j - 1, temp->content, line);
 	free_content(&temp, j);
 	return (i == 0 && j == 0 ? 0 : 1);
 }
