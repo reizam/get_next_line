@@ -6,7 +6,7 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 17:33:43 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/23 21:44:01 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/23 21:58:52 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		get_next_line_offset(t_list *lst)
 	return (0);
 }
 
-int		parse_line(int v, size_t end, char *content, char **line)
+int		parse_line(size_t end, char *content, char **line)
 {
 	size_t	i;
 	char	*result;
@@ -84,7 +84,7 @@ int		get_next_line(int fd, char **line)
 	if (i < 0)
 		return (-1);
 	len = ft_strlen(temp->content);
-	parse_line((j == 0 && len > 0), j == 0 && len >= 0 ? len : j - 1, temp->content, line);
+	parse_line(j == 0 && len >= 0 ? len : j - 1, temp->content, line);
 	free_content(&temp, j == 0 && len >= 0 ? len : j);
 	return (i == 0 && j == 0 && len == 0 ? 0 : 1);
 }
