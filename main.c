@@ -21,7 +21,8 @@ int main (int ac, char **av)
 		{
 			int fd = open(av[i], O_RDONLY);
 			while ((r = get_next_line(fd, &line)) > 0)
-				printf("%s", line);
+				printf("%d-%s\n", r, line);
+			printf("%d-%s\n", r, line);
 			close(fd);
 		}
 	}
