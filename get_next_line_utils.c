@@ -6,7 +6,7 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 17:34:07 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/23 18:37:23 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/23 18:40:17 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,23 +77,6 @@ t_list	*ft_lstget(t_list *begin, int fd)
 	return (NULL);
 }
 
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*result;
-	size_t			i;
-	size_t			n;
-	unsigned char	*str;
-
-	i = 0;
-	n = nmemb * size;
-	if (!(result = (void*)malloc(n)))
-		return (NULL);
-	str = (unsigned char*)result;
-	while (i < n)
-		str[i++] = (char)0;
-	return ((void*)str);
-}
-
 t_list	*ft_lstnew(t_list **begin, int fd)
 {
 	t_list *lst;
@@ -101,7 +84,7 @@ t_list	*ft_lstnew(t_list **begin, int fd)
 	if (!(lst = (t_list*)malloc(sizeof(t_list))))
 		return (NULL);
 	lst->fd = fd;
-	lst->content = ft_calloc(0, sizeof(char));
+	lst->content = NULL;
 	if ((*begin))
 		lst->next = *begin;
 	else
