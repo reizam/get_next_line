@@ -6,7 +6,7 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 02:49:01 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/25 05:37:55 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/25 05:49:13 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		get_and_free_str(ssize_t start, char **gnl, int fd)
 	ssize_t	i;
 
 	i = ft_strlen(gnl[fd]) - start;
+	
 	if (!(result = (char*)malloc(sizeof(char) * (i + 1))))
 	{
 		if (gnl[fd])
@@ -65,7 +66,8 @@ int		get_and_free_str(ssize_t start, char **gnl, int fd)
 		free(gnl[fd]);
 	gnl[fd] = result;
 	if (i <= 0)
-		free(gnl[fd]);
+		if (gnl[fd])
+			free(gnl[fd]);
 	return (1);
 }
 
@@ -92,5 +94,5 @@ int		get_next_line(int fd, char **line)
 		return (-1);
 	if (!(get_and_free_str(j == 0 && i >= 0 ? i : j, gnl, fd)))
 		return (-1);
-	return (j == 0);
+	return (j == 0 ? 0 : 1);
 }
