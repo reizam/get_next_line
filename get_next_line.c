@@ -6,7 +6,7 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 02:49:01 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/25 03:22:04 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/25 03:25:21 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ ssize_t	get_next_line_offset(char *str)
 int		get_and_copy_line(char *str, char **line, ssize_t end)
 {
 	char	*result;
-	size_t 	i;
+	ssize_t 	i;
 
 	i = 0;
 	if (!(result = (char*)malloc(sizeof(char) * (end + 1))))
@@ -73,7 +73,7 @@ int		get_next_line(int fd, char **line)
 	while ((i = read(fd, &buffer, BUFFER_SIZE)) >= 0)
 	{
 		if (i > 0)
-			gnl[fd] = ft_strjoin(&gnl[fd], &buffer);
+			gnl[fd] = ft_strjoin(&gnl[fd], buffer);
 		if ((j = get_next_line_offset(gnl[fd]) > 0) || i == 0)
 			break ;
 	}
