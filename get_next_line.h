@@ -5,32 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/21 17:34:36 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/23 22:39:17 by kmazier          ###   ########.fr       */
+/*   Created: 2020/11/25 02:49:44 by kmazier           #+#    #+#             */
+/*   Updated: 2020/11/25 03:21:06 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include <stdlib.h>
-# include <unistd.h>
-
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2
+# define BUFFER_SIZE 2
 # endif
 
-typedef struct	s_list
-{
-	int				fd;
-	char			*content;
-	struct s_list	*next;
-}				t_list;
+# define OPEN_MAX 250
 
-t_list			*ft_lstnew(t_list **begin, int fd);
-t_list			*ft_lstget(t_list *begin, int fd);
-int				get_next_line(int fd, char **line);
-char			*ft_strjoin(char *s1, char *s2, ssize_t s2_size);
-size_t			ft_strlen(const char *s);
+# include <unistd.h>
+# include <stdlib.h>
+
+int		get_next_line(int fd, char **line);
+char	*ft_strjoin(char **s1, char **s2);
+size_t	ft_strlen(const char *s);
 
 #endif

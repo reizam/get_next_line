@@ -5,84 +5,84 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/21 17:33:43 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/23 23:01:56 by kmazier          ###   ########.fr       */
+/*   Created: 2020/11/25 02:49:01 by kmazier           #+#    #+#             */
+/*   Updated: 2020/11/25 03:22:04 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		get_next_line_offset(t_list *lst)
+ssize_t	get_next_line_offset(char *str)
 {
-	size_t	i;
+	ssize_t i;
 
 	i = 0;
-	if (!lst || !lst->content)
-		return (0);
-	while (lst->content[i])
-		if (lst->content[i++] == '\n')
+	while (str && str[i])
+		if (str[i++] == '\n')
 			return (i);
 	return (0);
 }
 
-int		parse_line(size_t end, char *content, char **line)
+int		get_and_copy_line(char *str, char **line, ssize_t end)
 {
-	size_t	i;
 	char	*result;
+	size_t 	i;
 
 	i = 0;
 	if (!(result = (char*)malloc(sizeof(char) * (end + 1))))
 		return (0);
 	while (i < end)
 	{
-		result[i] = content[i];
+		result[i] = str[i];
 		i++;
 	}
 	result[i] = 0;
 	*line = result;
+	free(result);
 	return (1);
 }
 
-void	free_content(t_list **lst, ssize_t start)
+int		update_buffer(ssize_t start, char **buffer)
 {
 	char	*result;
-	size_t	i;
+	ssize_t i;
 
-	i = ft_strlen((*lst)->content) - start;
+	i = ft_strlen(*buffer) - start;
 	if (!(result = (char*)malloc(sizeof(char) * (i + 1))))
-		return ;
+		return (0);
 	i = 0;
-	while ((*lst)->content && (*lst)->content[start])
-		result[i++] = (*lst)->content[start++];
+	while (*buffer && *buffer[start])
+		result[i++] = *buffer[start++];
 	result[i] = 0;
-	free((*lst)->content);
-	(*lst)->content = result;
+	if (*buffer)
+		free(*buffer);
+	*buffer = result;
+	free(result);
+	return (1);
 }
 
 int		get_next_line(int fd, char **line)
 {
-	static t_list	*lst;
-	t_list			*temp;
-	ssize_t			i;
-	ssize_t			j;
-	char			buffer[BUFFER_SIZE + 1];
+	static char	*gnl[OPEN_MAX];
+	char		buffer[BUFFER_SIZE + 1];
+	ssize_t		i;
+	ssize_t		j;
 
 	if (!line || fd < 0 || BUFFER_SIZE <= 0)
 		return (-1);
-	if (!lst || !(temp = ft_lstget(lst, fd)))
-		if (!(temp = ft_lstnew(&lst, fd)))
-			return (-1);
 	while ((i = read(fd, &buffer, BUFFER_SIZE)) >= 0)
 	{
 		if (i > 0)
-			temp->content = ft_strjoin(temp->content, buffer, i);
-		if (((j = get_next_line_offset(temp)) > 0) || i <= 0)
+			gnl[fd] = ft_strjoin(&gnl[fd], &buffer);
+		if ((j = get_next_line_offset(gnl[fd]) > 0) || i == 0)
 			break ;
 	}
 	if (i < 0)
 		return (-1);
-	i = ft_strlen(temp->content);
-	parse_line(j == 0 && i >= 0 ? i : j - 1, temp->content, line);
-	free_content(&temp, j == 0 && i >= 0 ? i : j);
+	i = ft_strlen(gnl[fd]);
+	if (!(get_and_copy_line(gnl[fd], line, j == 0 && i >= 0 ? i : j - 1)))
+		return (-1);
+	if (!(update_buffer(j == 0 && i >= 0 ? i : j, &gnl[fd])))
+		return (-1);
 	return (j == 0 ? 0 : 1);
 }
