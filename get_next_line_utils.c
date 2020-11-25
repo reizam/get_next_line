@@ -6,7 +6,7 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 02:52:23 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/25 03:25:31 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/25 04:41:30 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,29 @@ size_t	ft_strlen(const char *s)
 	size_t i;
 
 	i = 0;
-	while (s[i])
+	while (s && s[i])
 		i++;
 	return (i);
 }
 
-char	*ft_strjoin(char **s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, ssize_t s2_size)
 {
 	char			*result;
-	size_t			i;
-	size_t			j;
+	ssize_t			i;
+	ssize_t			j;
 
-	i = (*s1 == NULL ? 0 : ft_strlen(*s1))
-	+ (s2 == NULL ? 0 : ft_strlen(s2));
+	i = (s1 == NULL ? 0 : ft_strlen(s1)) + s2_size;
 	if (!(result = (char*)malloc((i + 1) * sizeof(char))))
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (*s1 && *s1[j])
-		result[i++] = *s1[j++];
+	while (s1 && s1[j])
+		result[i++] = s1[j++];
 	j = 0;
-	while (s2 && s2[j])
+	while (s2 && j < s2_size)
 		result[i++] = s2[j++];
 	result[i] = 0;
-	if (*s1)
-		free(*s1);
+	if (s1) 
+		free(s1);
 	return (result);
 }
