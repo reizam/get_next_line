@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/25 05:43:51 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/25 05:56:58 by kmazier          ###   ########.fr       */
+/*   Created: 2020/11/25 02:49:44 by kmazier           #+#    #+#             */
+/*   Updated: 2020/11/25 17:40:41 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 2
+# endif
 
-int main (int ac, char **av)
-{
-	char	*line = NULL;
-	int		i = 0;
+# define OPEN_MAX 250
 
-	while (++i < ac)
-	{
-		int fd = open(av[i], O_RDONLY);
-		int r = 0;
-		while ((r = get_next_line(fd, &line)) > 0)
-		{
-			printf("%d-%s\n", r, line);
-			free(line);
-			line = NULL;
-		}
-		printf("%d-%s\n", r, line);
-			free(line);
-			line = NULL;
-	}
-}
+# include <unistd.h>
+# include <stdlib.h>
+
+int		get_next_line(int fd, char **line);
+char	*ft_strjoin(char *s1, char *s2, ssize_t s2_size);
+size_t	ft_strlen(const char *s);
+
+#endif
