@@ -6,7 +6,7 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 02:49:44 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/25 17:41:12 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/26 01:11:51 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #  define BUFFER_SIZE 2
 # endif
 
-# define OPEN_MAX 250
+# define OPEN_MAX 4096
 
 # include <unistd.h>
 # include <stdlib.h>
