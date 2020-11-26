@@ -6,7 +6,7 @@
 /*   By: kmazier <kmazier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 02:49:01 by kmazier           #+#    #+#             */
-/*   Updated: 2020/11/25 22:01:14 by kmazier          ###   ########.fr       */
+/*   Updated: 2020/11/26 01:38:25 by kmazier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ int		get_and_copy_line(char *str, char **line, ssize_t end)
 	ssize_t		i;
 
 	i = 0;
+	if (end <= 0)
+	{
+		*line = NULL;
+		return (1);
+	}
 	if (!(result = (char*)malloc(sizeof(char) * (end + 1))))
 	{
 		if (str)
